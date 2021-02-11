@@ -1,0 +1,6 @@
+<div class="form-group" [formGroup]="DesignationForm" >
+  <label for=""></label>
+  <input type="text"
+    class="form-control" formControlName="title" aria-describedby="helpId" placeholder="Add Designation">
+</div>
+<button class="btn btn-primary" (click)="DesignationFormSubmit(DesignationForm.value)" >Save </button>

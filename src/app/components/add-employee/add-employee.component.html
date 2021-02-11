@@ -1,0 +1,137 @@
+<form [formGroup]="EmployeeForm" (ngSubmit)="onSubmit(EmployeeForm.value)">
+    <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="name" class="col-md-4 col-form-label text-md-right">  Name: <span
+                                class="text-danger">*</span> </label>
+                        <div class="col-md-6">
+                            <input type="text" formControlName="name" class="form-control" (blur)="logValidationMessages(EmployeeForm)"
+                              [class.is-invalid]="formErrors.name" placeholder="Name *">
+                            <div *ngIf="formErrors.name" class="invalid-feedback">{{formErrors.name}}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row">
+                        <label for="email" class="col-md-4 col-form-label text-md-right"> Email: <span class="text-danger">*</span>
+                        </label>
+                        <div class="col-md-6">
+                            <input type="text" formControlName="email" class="form-control" (blur)="logValidationMessages(EmployeeForm)"
+                              [class.is-invalid]="formErrors.email" placeholder="Email *">
+                            <div *ngIf="formErrors.email" class="invalid-feedback">{{formErrors.email}}</div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="col-md-6">
+
+                    <div class="form-group row">
+                        <label for="salary" class="col-md-4 col-form-label text-md-right"> Salary: <span
+                                class="text-danger">*</span> </label>
+                        <div class="col-md-6">
+                            <input type="text" (keypress)="numberOnly($event)" formControlName="salary" class="form-control" (blur)="logValidationMessages(EmployeeForm)" 
+                            [class.is-invalid]="formErrors.salary" placeholder="Salary*">
+                          <div *ngIf="formErrors.salary" class="invalid-feedback">{{formErrors.salary}}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="designation" class="col-md-4 col-form-label text-md-right"> Designation: <span
+                                class="text-danger">*</span> </label>
+                        <div class="col-md-6">
+                            <!-- <input type="text" formControlName="designation" class="form-control" (blur)="logValidationMessages(EmployeeForm)"
+                              class="form-control"  placeholder="Designatin" [class.is-invalid]="formErrors.designation" > -->
+                              <select class="form-control" formControlName="designation"  id="type"  name="type" (blur)="logValidationMessages(EmployeeForm)"
+                               [class.is-invalid]="formErrors.designation" 
+                              >
+                              <option value="" >Select Designation</option>
+                                <option *ngFor="let elt of AllDesignation" [value]="elt._id">
+                                  {{elt.title}}
+                                </option>
+                      </select>
+                            <div *ngIf="formErrors.designation" class="invalid-feedback">{{formErrors.designation}}</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>   
+    </div> 
+    <div class="card-footer">
+        <div class="col-md-2 offset-md-10">
+            <input type="submit" class="btn btn-primary btn-sm btn-block" value="Add"    />
+        </div>
+    </div>
+</form>
+
+<div class="card">
+  <div class="card-body">
+    <select name="" id="" [(ngModel)]="searchVar" (change)="search()" >
+      <option value="1">Name</option>
+      <option value="2">Email</option>
+      <option value="3">Salary</option>
+      <option value="4">Designation</option>
+    </select>
+    <input *ngIf="searchVar!=4" type="text" (keypress)="digsearch()" [(ngModel)]="searchItem" >
+    <select *ngIf="searchVar==4" name="" id=""  [(ngModel)]="searchItem"  (change)="digsearch()" >
+      <option value="">select</option>
+      <option *ngFor="let s of AllDesignation" [value]="s._id"  >{{s.title}}</option>
+    </select> 
+    <button (click)="digsearch()">search</button>
+  </div>
+  <button (click)="digsearch()">search</button>
+</div>
+
+<table class="table table-bordered table-inverse table-responsive">
+    <thead class="thead-inverse">
+        <tr>
+            <th>S.N.</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Salary</th>
+            <th>Designation</th>
+            <th>Options</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let i of AllEmployewe;let j=index" >
+                <td scope="row">{{j+1}}</td>
+                <td>{{i.name}}</td>
+                <td>{{i.email}}</td>
+                <td>{{i.salary}}</td>
+                <td>{{i.designation.title}}</td>
+                <td>
+                    <button class="btn btn-warning" data-toggle="modal" data-target="#edit" (click)="editEmployee(i)" >Edit</button>
+                    <button class="btn btn-danger" (click)="deleteEmp(i)" >Delete</button>
+                </td>
+            </tr>
+        </tbody>
+</table>
+
+
+
+
+  <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Employee Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" [formGroup]="EmployeeEditForm" >
+<input type="text" class="form-control" formControlName="name" >
+<input type="text" class="form-control" formControlName="email">
+<input type="text" class="form-control" formControlName="salary">
+<select name="" id="" formControlName="designation" >
+  <option value="">select</option>
+  <option *ngFor="let s of AllDesignation" [value]="s._id"  >{{s.title}}</option>
+</select> 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="saveEditEmp()" >Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
