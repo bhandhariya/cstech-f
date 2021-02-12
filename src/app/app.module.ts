@@ -10,7 +10,7 @@ import { GraphComponent } from './components/graph/graph.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from "@angular/common/http";
 import { DesignationComponent } from './components/designation/designation.component';
-
+import { ChartsModule } from 'ng2-charts';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +23,7 @@ import { DesignationComponent } from './components/designation/designation.compo
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,ReactiveFormsModule,HttpClientModule
+    FormsModule,ReactiveFormsModule,HttpClientModule,ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

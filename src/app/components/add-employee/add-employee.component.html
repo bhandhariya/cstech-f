@@ -71,11 +71,13 @@
       <option value="3">Salary</option>
       <option value="4">Designation</option>
     </select>
-    <input *ngIf="searchVar!=4" type="text" (keypress)="digsearch()" [(ngModel)]="searchItem" >
+    <input *ngIf="searchVar==1 || searchVar==2 " type="text" (keypress)="digsearch()" [(ngModel)]="searchItem" >
     <select *ngIf="searchVar==4" name="" id=""  [(ngModel)]="searchItem"  (change)="digsearch()" >
       <option value="">select</option>
       <option *ngFor="let s of AllDesignation" [value]="s._id"  >{{s.title}}</option>
     </select> 
+    <input *ngIf="searchVar==3" type="text" placeholder="max" [(ngModel)]="gt" >
+    <input *ngIf="searchVar==3" type="text"  placeholder="min" [(ngModel)]="lt" >
     <button (click)="digsearch()">search</button>
   </div>
   <button (click)="digsearch()">search</button>
@@ -108,7 +110,7 @@
 </table>
 
 
-
+<button (click)="test()" >test</button>
 
   <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">

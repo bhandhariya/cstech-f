@@ -166,6 +166,8 @@ digsearch(){
   }else if(this.searchVar==3){
     obj={
       type:"salary",
+      gt:this.gt,
+      lt:this.lt,
       value:this.searchItem
     }
   }else if(this.searchVar==4){
@@ -180,4 +182,10 @@ digsearch(){
     this.AllEmployewe=result;
   })
 }
+test(){
+  this.http.get('http://localhost:3000/users/test').subscribe(r=>{
+    console.log(r)
+  })
+}
+gt:any;lt:any;
 }
