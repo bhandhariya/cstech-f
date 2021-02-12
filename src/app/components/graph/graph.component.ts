@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label } from 'ng2-charts';
+import { MainService } from 'src/app/main.service';
 @Component({
   selector: 'app-graph',
   templateUrl: './graph.component.html',
@@ -20,13 +21,13 @@ export class GraphComponent implements OnInit {
     {data:[2,1,3],lable:"sahs"}
   ];
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient,private main:MainService) { }
 
   ngOnInit(): void {
     this.timewise()
   }
   timewise(){
-    this.http.get('https://cstech-b.herokuapp.com/users/time').subscribe((r:any)=>{
+    this.main.getGraphData().subscribe((r:any)=>{
       console.log(r);
       var result:any=[]
       r.map((ele:any)=>{

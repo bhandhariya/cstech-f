@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MainService } from 'src/app/main.service';
 
 declare var jQuery: any;
 
@@ -11,7 +12,7 @@ declare var jQuery: any;
 })
 export class AddEmployeeComponent implements OnInit {
   EmployeeForm:any;
-  constructor(private fb:FormBuilder,private http:HttpClient) { }
+  constructor(private fb:FormBuilder,private http:HttpClient,private main:MainService) { }
 
   ngOnInit(): void {
     this.getAllEmployee();
@@ -73,7 +74,7 @@ onSubmit(formData:any){
     this.logValidationMessages();
     if(this.EmployeeForm.valid){
      console.log(formData)
-      this.http.post('https://cstech-b.herokuapp.com/users/addEmp',formData).subscribe(r=>{
+      this.main.addEmployee(formData).subscribe(r=>{
         console.log(r);
         this.EmployeeForm.reset();
         this.getAllEmployee();
@@ -82,14 +83,14 @@ onSubmit(formData:any){
 }
 AllDesignation:any;
 getAllDesignation(){
-  this.http.get('https://cstech-b.herokuapp.com').subscribe(r=>{
-  this.AllDesignation=r;
-  console.log(this.AllDesignation)
-  })
+  this.main.getAllDesignation().subscribe(r=>{
+    this.AllDesignation=r;
+    console.log(this.AllDesignation)
+    })
 }
 AllEmployewe:any;
 getAllEmployee(){
-  this.http.get('https://cstech-b.herokuapp.com/users').subscribe(r=>{
+  this.main.getAllEmployee().subscribe(r=>{
   this.AllEmployewe=r;
   console.log(this.AllEmployewe)
   })
@@ -126,7 +127,7 @@ editEmployee(employee:any){
 }
 saveEditEmp(){
   console.log(this.EmployeeEditForm.value)
-  this.http.post('https://cstech-b.herokuapp.com/users/saveEditEmp',this.EmployeeEditForm.value).subscribe(result=>{
+  this.main.editEmployee(this.EmployeeEditForm.value).subscribe(result=>{
     console.log(result);
     if(result){
       jQuery('#edit').modal('hide');
@@ -135,7 +136,7 @@ saveEditEmp(){
   })
 }
 deleteEmp(employee:any){
-  this.http.post('https://cstech-b.herokuapp.com/users/deleteEmpbyId',{id:employee._id}).subscribe(result=>{
+  this.main.deleteEmployee({id:employee._id}).subscribe(result=>{
     console.log(result);
     if(result){
       jQuery('#edit').modal('hide');
@@ -177,7 +178,7 @@ digsearch(){
     }
   }
   console.log(obj);
-  this.http.post('https://cstech-b.herokuapp.com/users/search',obj).subscribe(result=>{
+  this.main.search(obj).subscribe(result=>{
     console.log(result)
     this.AllEmployewe=result;
   })
