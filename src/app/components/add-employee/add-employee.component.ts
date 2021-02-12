@@ -152,7 +152,7 @@ saveEditEmp(){
   this.main.editEmployee(this.EmployeeEditForm.value).subscribe((result:any)=>{
     console.log(result);
     
-    if(result._id){
+    if(result){
       jQuery('#edit').modal('hide');
       Swal.fire(
         'Edited!',
@@ -160,6 +160,13 @@ saveEditEmp(){
         'success'
       )
       this.getAllEmployee();
+    }
+    if(result==null){
+      Swal.fire(
+        'fill other email!',
+        'this email is already exists!',
+        'warning'
+      ) 
     }
   },err=>{
     this.main.handleError(err)
