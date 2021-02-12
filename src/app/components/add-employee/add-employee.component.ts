@@ -73,7 +73,7 @@ onSubmit(formData:any){
     this.logValidationMessages();
     if(this.EmployeeForm.valid){
      console.log(formData)
-      this.http.post('http://localhost:3000/users/addEmp',formData).subscribe(r=>{
+      this.http.post('https://cstech-b.herokuapp.com/users/addEmp',formData).subscribe(r=>{
         console.log(r);
         this.EmployeeForm.reset();
         this.getAllEmployee();
@@ -82,14 +82,14 @@ onSubmit(formData:any){
 }
 AllDesignation:any;
 getAllDesignation(){
-  this.http.get('http://localhost:3000').subscribe(r=>{
+  this.http.get('https://cstech-b.herokuapp.com').subscribe(r=>{
   this.AllDesignation=r;
   console.log(this.AllDesignation)
   })
 }
 AllEmployewe:any;
 getAllEmployee(){
-  this.http.get('http://localhost:3000/users').subscribe(r=>{
+  this.http.get('https://cstech-b.herokuapp.com/users').subscribe(r=>{
   this.AllEmployewe=r;
   console.log(this.AllEmployewe)
   })
@@ -126,7 +126,7 @@ editEmployee(employee:any){
 }
 saveEditEmp(){
   console.log(this.EmployeeEditForm.value)
-  this.http.post('http://localhost:3000/users/saveEditEmp',this.EmployeeEditForm.value).subscribe(result=>{
+  this.http.post('https://cstech-b.herokuapp.com/users/saveEditEmp',this.EmployeeEditForm.value).subscribe(result=>{
     console.log(result);
     if(result){
       jQuery('#edit').modal('hide');
@@ -135,7 +135,7 @@ saveEditEmp(){
   })
 }
 deleteEmp(employee:any){
-  this.http.post('http://localhost:3000/users/deleteEmpbyId',{id:employee._id}).subscribe(result=>{
+  this.http.post('https://cstech-b.herokuapp.com/users/deleteEmpbyId',{id:employee._id}).subscribe(result=>{
     console.log(result);
     if(result){
       jQuery('#edit').modal('hide');
@@ -177,13 +177,13 @@ digsearch(){
     }
   }
   console.log(obj);
-  this.http.post('http://localhost:3000/users/search',obj).subscribe(result=>{
+  this.http.post('https://cstech-b.herokuapp.com/users/search',obj).subscribe(result=>{
     console.log(result)
     this.AllEmployewe=result;
   })
 }
 test(){
-  this.http.get('http://localhost:3000/users/test').subscribe(r=>{
+  this.http.get('https://cstech-b.herokuapp.com/users/test').subscribe(r=>{
     console.log(r)
   })
 }

@@ -17,7 +17,7 @@ export class GraphComponent implements OnInit {
   public barChartPlugins = [];
 
    barChartData: any = [
-    
+    {data:[2,1,3],lable:"sahs"}
   ];
 
   constructor(private http:HttpClient) { }
@@ -26,15 +26,17 @@ export class GraphComponent implements OnInit {
     this.timewise()
   }
   timewise(){
-    this.http.get('http://localhost:3000/users/time').subscribe((r:any)=>{
+    this.http.get('https://cstech-b.herokuapp.com/users/time').subscribe((r:any)=>{
       console.log(r);
       var result:any=[]
       r.map((ele:any)=>{
           result.push(ele.count)
       })
       console.log(result)
+
       this.barChartLabels = r.map((ele:any)=>{ return ele._id.day;})
       this.barChartData[0]['data']=result;
+      this.barChartData[0]['label']='number of employee created';
       console.log('result',this.barChartData);
       
     })

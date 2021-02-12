@@ -18,7 +18,7 @@ export class DesignationComponent implements OnInit {
   });
   DesignationFormSubmit(data:any){
     console.log(data);
-    this.http.post('http://localhost:3000/add-designation',data).subscribe(r=>{
+    this.http.post('https://cstech-b.herokuapp.com/add-designation',data).subscribe(r=>{
     console.log(r)
     })
   }
