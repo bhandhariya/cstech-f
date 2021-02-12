@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MainService } from 'src/app/main.service';
-
+import Swal from 'sweetalert2'
 @Component({
   selector: 'app-designation',
   templateUrl: './designation.component.html',
@@ -22,9 +22,15 @@ export class DesignationComponent implements OnInit {
     this.main.addDesignation(data).subscribe(r=>{
     console.log(r);
     if(r){
-      alert('Designation added');
+      Swal.fire(
+        'Added!',
+        'You Have Added New Designation!',
+        'success'
+      )
       this.DesignationForm.reset();
     }
+    },err=>{
+      this.main.handleError(err)
     })
   }
 }

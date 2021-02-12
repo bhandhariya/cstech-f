@@ -40,6 +40,8 @@ export class GraphComponent implements OnInit {
       this.barChartData[0]['label']='number of employee created';
       console.log('result',this.barChartData);
       
+    },err=>{
+      this.main.handleError(err)
     })
 
 

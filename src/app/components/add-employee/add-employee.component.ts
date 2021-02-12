@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MainService } from 'src/app/main.service';
+import Swal from 'sweetalert2'
 
 declare var jQuery: any;
 
@@ -74,10 +75,27 @@ onSubmit(formData:any){
     this.logValidationMessages();
     if(this.EmployeeForm.valid){
      console.log(formData)
-      this.main.addEmployee(formData).subscribe(r=>{
+      this.main.addEmployee(formData).subscribe((r:any)=>{
         console.log(r);
+       if(r._id){
+        Swal.fire(
+          'Added!',
+          'You have added a new Employee!',
+          'success'
+        )
         this.EmployeeForm.reset();
         this.getAllEmployee();
+       }else{
+         if(r.code==11000 && r.keyPattern.email==1){
+          Swal.fire(
+            'fill other email!',
+            'this email is already exists!',
+            'warning'
+          ) 
+         }
+       }
+      },err=>{
+        this.main.handleError(err)
       })
     }
 }
@@ -86,6 +104,8 @@ getAllDesignation(){
   this.main.getAllDesignation().subscribe(r=>{
     this.AllDesignation=r;
     console.log(this.AllDesignation)
+    },err=>{
+      this.main.handleError(err)
     })
 }
 AllEmployewe:any;
@@ -93,6 +113,8 @@ getAllEmployee(){
   this.main.getAllEmployee().subscribe(r=>{
   this.AllEmployewe=r;
   console.log(this.AllEmployewe)
+  },err=>{
+    this.main.handleError(err)
   })
 }
 numberOnly(event:any): boolean {
@@ -127,22 +149,52 @@ editEmployee(employee:any){
 }
 saveEditEmp(){
   console.log(this.EmployeeEditForm.value)
-  this.main.editEmployee(this.EmployeeEditForm.value).subscribe(result=>{
+  this.main.editEmployee(this.EmployeeEditForm.value).subscribe((result:any)=>{
     console.log(result);
-    if(result){
+    
+    if(result._id){
       jQuery('#edit').modal('hide');
+      Swal.fire(
+        'Edited!',
+        'You Have Edited this Employee!',
+        'success'
+      )
       this.getAllEmployee();
     }
+  },err=>{
+    this.main.handleError(err)
   })
 }
 deleteEmp(employee:any){
-  this.main.deleteEmployee({id:employee._id}).subscribe(result=>{
-    console.log(result);
-    if(result){
-      jQuery('#edit').modal('hide');
-      this.getAllEmployee();
+
+  Swal.fire({
+    title: 'Do you want to Delete this Employee?',
+    showDenyButton: true,
+    showCancelButton: true,
+    confirmButtonText: `Delete`,
+    denyButtonText: `Don't Delete`,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.main.deleteEmployee({id:employee._id}).subscribe(result=>{
+        console.log(result);
+        if(result){
+          Swal.fire(
+            'Deleted!',
+            'You Have Deleted this Employee!',
+            'success'
+          )
+          this.getAllEmployee();
+        }
+      },err=>{
+        this.main.handleError(err)
+      })    
+    } else if (result.isDenied) {
+      Swal.fire('Changes are not saved', '', 'info')
     }
   })
+
+
+  
 }
 searchVar:any;
 searchItem:any;
@@ -181,10 +233,12 @@ digsearch(){
   this.main.search(obj).subscribe(result=>{
     console.log(result)
     this.AllEmployewe=result;
+  },err=>{
+    this.main.handleError(err)
   })
 }
 test(){
-  this.http.get('https://cstech-b.herokuapp.com/users/test').subscribe(r=>{
+  this.http.get('http://localhost:3000/users/test').subscribe(r=>{
     console.log(r)
   })
 }
