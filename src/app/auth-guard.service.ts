@@ -17,3 +17,22 @@ export class AuthGuardService implements CanActivate {
     return false;
   }
 }	
+
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class LoginGuard implements CanActivate {
+
+  constructor(private authService : AuthService, private route : Router) { }
+
+  canActivate(){
+    if(this.authService.isAuthenticated()){
+      this.route.navigate(['dashboard']);
+      return false;
+    }
+    return true;
+    
+  }
+}	

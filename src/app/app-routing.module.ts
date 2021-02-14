@@ -5,18 +5,21 @@ import { DesignationComponent } from './components/designation/designation.compo
 import { GraphComponent } from './components/graph/graph.component';
 import { HomeComponent } from './components/home/home.component';
 import { SearchEmployeeComponent } from './components/search-employee/search-employee.component';
+
+
+
 import { 
-  AuthGuardService as AuthGuard 
+  AuthGuardService as AuthGuard, LoginGuard 
 } from './auth-guard.service';
 import { LoginComponent } from './login/login.component';
+
+
+
+
 const routes: Routes = [
-  {path:"",component:HomeComponent,canActivate:[AuthGuard]},
-  {path:"home",component:HomeComponent,canActivate:[AuthGuard]},
-  {path:"login",component:LoginComponent},
-  {path:"add",component:AddEmployeeComponent,canActivate:[AuthGuard]},
-  {path:"search",component:SearchEmployeeComponent,canActivate:[AuthGuard]},
-  {path:"graph",component:GraphComponent,canActivate:[AuthGuard]},
-  {path:"designation",component:DesignationComponent,canActivate:[AuthGuard]}
+  {path:"dashboard",loadChildren:()=>import('./components/dashboard/dashboard.module').then(m=>m.DashboardModule),canActivate:[AuthGuard]},
+  {path:"login",component:LoginComponent,canActivate:[LoginGuard]},
+  {path:"",redirectTo:"login",pathMatch:"full"}
 ];
 
 @NgModule({

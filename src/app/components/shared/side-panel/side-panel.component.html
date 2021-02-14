@@ -1,0 +1,51 @@
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="height:100%">
+
+
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" [routerLink]="['/dashboard/user']">
+      <div class="sidebar-brand-icon rotate-n-15">
+        <i class="fas fa-laugh-wink"></i>
+      </div>
+    </a>
+    <hr class="sidebar-divider my-0">
+  
+    <hr class="sidebar-divider">
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/dashboard/user']" routerLinkActive="active-link">
+        <i class="fas fa-fw fa-chart-area"></i>
+        <span> Users </span></a>
+    </li>
+    <hr class="sidebar-divider">  
+  
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/dashboard/category']">
+        <i class="fas fa-fw fa-table"></i>
+        <span> Categories </span></a>
+    </li>
+    <hr class="sidebar-divider"> 
+  
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/dashboard/course']">
+        <i class="fas fa-fw fa-table"></i>
+        <span> Courses </span></a>
+    </li>
+    <hr class="sidebar-divider"> 
+  
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/dashboard/assignment']">
+        <i class="fas fa-fw fa-table"></i>
+        <span> Assignmments </span></a>
+    </li>
+    <hr class="sidebar-divider">
+  
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/dashboard/question']">
+        <i class="fas fa-fw fa-table"></i>
+        <span> Questions </span></a>
+    </li>
+    <hr class="sidebar-divider d-none d-md-block">
+  
+    <div class="text-center d-none d-md-inline">
+      <button class="rounded-circle border-0" id="sidebarToggle" ></button>
+    </div>
+  
+  </ul>

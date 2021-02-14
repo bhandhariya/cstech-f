@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { MainService } from 'src/app/main.service';
 import Swal from 'sweetalert2'
 
@@ -13,7 +16,7 @@ declare var jQuery: any;
 })
 export class AddEmployeeComponent implements OnInit {
   EmployeeForm:any;
-  constructor(private fb:FormBuilder,private http:HttpClient,private main:MainService) { }
+  constructor(private fb:FormBuilder,private http:HttpClient,private main:MainService,private storage:AngularFireStorage) { }
 
   ngOnInit(): void {
     this.getAllEmployee();
@@ -22,7 +25,11 @@ export class AddEmployeeComponent implements OnInit {
     name : ['',[Validators.required]],
     email : ['',[Validators.required,Validators.email]],
     salary : ['',[Validators.required]],
-    designation : ['',[Validators.required]]
+    designation : ['',[Validators.required]],
+    mobile:['',[Validators.required]],
+    gender:['',[Validators.required]],
+    course:['',[Validators.required]],
+    image:['',[Validators.required]]
   })
   this.EmployeeForm.valueChanges.subscribe((value:any)=>{
     this.logValidationMessages();
@@ -43,14 +50,40 @@ export class AddEmployeeComponent implements OnInit {
                     },
     'designation' : {
                       'required': 'Designation is required'
-                    }
+                    },
+    'mobile' : {
+                      'required': 'Mobile is required'
+                    },
+    'gender' : {
+                      'required': 'Gender is required'
+                    },
+    'course' : {
+                      'required': 'course is required'
+                    },
+    'image':{
+                      'required':'image is required',
+                      'image': 'Image should be only png/jpg'
+    }
 };
 formErrors :any= {
   'name' : '',
   'email' : '',
   'salary' : '',
-  'designation' : ''
+  'designation' : '',
+  'mobile':'',
+  'gender':'',
+  'course':'',
+  'image':'',
 };
+AllGender:any=[
+  {id:1,title:"male"},
+  {id:1,title:"female"}
+];
+AllCourse:any=[
+  {id:1,title:"BCA"},
+  {id:2,title:"MCA"},
+  {id:3,title:"BTech"},
+]
 submmited: boolean = false;
 logValidationMessages(group: FormGroup = this.EmployeeForm): void {
   Object.keys(group.controls).forEach((key: string) => {
@@ -75,28 +108,28 @@ onSubmit(formData:any){
     this.logValidationMessages();
     if(this.EmployeeForm.valid){
      console.log(formData)
-      this.main.addEmployee(formData).subscribe((r:any)=>{
-        console.log(r);
-       if(r._id){
-        Swal.fire(
-          'Added!',
-          'You have added a new Employee!',
-          'success'
-        )
-        this.EmployeeForm.reset();
-        this.getAllEmployee();
-       }else{
-         if(r.code==11000 && r.keyPattern.email==1){
-          Swal.fire(
-            'fill other email!',
-            'this email is already exists!',
-            'warning'
-          ) 
-         }
-       }
-      },err=>{
-        this.main.handleError(err)
-      })
+      // this.main.addEmployee(formData).subscribe((r:any)=>{
+      //   console.log(r);
+      //  if(r._id){
+      //   Swal.fire(
+      //     'Added!',
+      //     'You have added a new Employee!',
+      //     'success'
+      //   )
+      //   this.EmployeeForm.reset();
+      //   this.getAllEmployee();
+      //  }else{
+      //    if(r.code==11000 && r.keyPattern.email==1){
+      //     Swal.fire(
+      //       'fill other email!',
+      //       'this email is already exists!',
+      //       'warning'
+      //     ) 
+      //    }
+      //  }
+      // },err=>{
+      //   this.main.handleError(err)
+      // })
     }
 }
 AllDesignation:any;
@@ -250,4 +283,32 @@ test(){
   })
 }
 gt:any;lt:any;
+downloadURL: Observable<string> | undefined;
+uploadImage(event:any) {
+  console.log(event)
+  const file = event.target.files[0];
+  var randomString=Math.floor(Date.now() / 1000);
+  //   var picName=randomString;
+  const filePath = 'employee'+randomString;
+  const fileRef = this.storage.ref(filePath);
+  const task = this.storage.upload(filePath, file);
+
+  // observe percentage changes
+  // this.uploadPercent = task.percentageChanges();
+  // get notified when the download URL is available
+  task.snapshotChanges().pipe(
+      finalize(() =>{ this.downloadURL = fileRef.getDownloadURL()
+        this.downloadURL.subscribe(e=>{
+          console.log(e)
+          this.EmployeeForm.get('image').setValue(e)
+        })
+      } )
+   )
+  .subscribe(e=>{
+    
+  })
+  
+}
+
+
 }
