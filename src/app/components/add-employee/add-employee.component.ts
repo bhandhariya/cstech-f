@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { MainService } from 'src/app/main.service';
@@ -28,14 +28,30 @@ export class AddEmployeeComponent implements OnInit {
     designation : ['',[Validators.required]],
     mobile:['',[Validators.required]],
     gender:['',[Validators.required]],
-    course:['',[Validators.required]],
+    course:this.fb.array([]),
     image:['',[Validators.required]]
   })
   this.EmployeeForm.valueChanges.subscribe((value:any)=>{
     this.logValidationMessages();
   })
   }
+  onCheckboxChange(e:any) {
+    console.log(e)
+    const checkArray: FormArray = this.EmployeeForm.get('course') as FormArray;
   
+    if (e.target.checked) {
+      checkArray.push(new FormControl(e.target.value));
+    } else {
+      let i: number = 0;
+      checkArray.controls.forEach((item: AbstractControl) => {
+        if (item.value == e.target.value) {
+          checkArray.removeAt(i);
+          return;
+        }
+        i++;
+      });
+    }
+  }
   validationMessages : any  = {
     'name' : {
                     'required': 'Name Name is Required',
@@ -108,28 +124,28 @@ onSubmit(formData:any){
     this.logValidationMessages();
     if(this.EmployeeForm.valid){
      console.log(formData)
-      // this.main.addEmployee(formData).subscribe((r:any)=>{
-      //   console.log(r);
-      //  if(r._id){
-      //   Swal.fire(
-      //     'Added!',
-      //     'You have added a new Employee!',
-      //     'success'
-      //   )
-      //   this.EmployeeForm.reset();
-      //   this.getAllEmployee();
-      //  }else{
-      //    if(r.code==11000 && r.keyPattern.email==1){
-      //     Swal.fire(
-      //       'fill other email!',
-      //       'this email is already exists!',
-      //       'warning'
-      //     ) 
-      //    }
-      //  }
-      // },err=>{
-      //   this.main.handleError(err)
-      // })
+      this.main.addEmployee(formData).subscribe((r:any)=>{
+        console.log(r);
+       if(r._id){
+        Swal.fire(
+          'Added!',
+          'You have added a new Employee!',
+          'success'
+        )
+        this.EmployeeForm.reset();
+        this.getAllEmployee();
+       }else{
+         if(r.code==11000 && r.keyPattern.email==1){
+          Swal.fire(
+            'fill other email!',
+            'this email is already exists!',
+            'warning'
+          ) 
+         }
+       }
+      },err=>{
+        this.main.handleError(err)
+      })
     }
 }
 AllDesignation:any;
@@ -309,6 +325,11 @@ uploadImage(event:any) {
   })
   
 }
+CourseData: Array<any> = [
+  { name: 'BCA', value: 'BCA' },
+  { name: 'MCA', value: 'MCA' },
+  { name: 'BSC', value: 'BSC' }
+];
 
 
 }

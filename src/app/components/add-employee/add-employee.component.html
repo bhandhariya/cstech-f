@@ -72,15 +72,19 @@
                       <div class="col-md-6">
                           <!-- <input type="text" formControlName="designation" class="form-control" (blur)="logValidationMessages(EmployeeForm)"
                             class="form-control"  placeholder="Designatin" [class.is-invalid]="formErrors.designation" > -->
-                            <select class="form-control" formControlName="gender"  id="type"  name="type" (blur)="logValidationMessages(EmployeeForm)"
+                            <!-- <select class="form-control" formControlName="gender"  id="type"  name="type" (blur)="logValidationMessages(EmployeeForm)"
                              [class.is-invalid]="formErrors.gender" 
                             >
                             <option value="" >Select Gender</option>
                               <option *ngFor="let elt of AllGender" [value]="elt.id">
                                 {{elt.title}}
                               </option>
-                    </select>
-                          <div *ngIf="formErrors.designation" class="invalid-feedback">{{formErrors.designation}}</div>
+                    </select> -->
+                    
+                    <input type="radio" value="male"  name="gender" formControlName="gender" (blur)="logValidationMessages(EmployeeForm)" [class.is-invalid]="formErrors.gender" > Male
+                    <input type="radio" value="female"  name="gender" formControlName="gender" (blur)="logValidationMessages(EmployeeForm)" [class.is-invalid]="formErrors.gender" > Female
+                   
+                          <div *ngIf="formErrors.designation" class="invalid-feedback">{{formErrors.gender}}</div>
                       </div>
                   </div>
 
@@ -93,7 +97,7 @@
                     <div class="col-md-6">
                         <!-- <input type="text" (keypress)="numberOnly($event)" formControlName="image" class="form-control" (blur)="logValidationMessages(EmployeeForm)" 
                         [class.is-invalid]="formErrors.image" placeholder="image*"> -->
-                        <input type="file"  class="form-control" placeholder="Upload File *"  (change)="uploadImage($event)"  [class.is-invalid]="formErrors.image" />
+                        <input type="file"  class="form-control" placeholder="Upload File *"   (blur)="logValidationMessages(EmployeeForm)" (change)="uploadImage($event)"  [class.is-invalid]="formErrors.image" />
                       <div *ngIf="formErrors.image" class="invalid-feedback">{{formErrors.image}}</div>
                     </div>
                 </div>
@@ -104,14 +108,23 @@
                     <div class="col-md-6">
                         <!-- <input type="text" formControlName="designation" class="form-control" (blur)="logValidationMessages(EmployeeForm)"
                           class="form-control"  placeholder="Designatin" [class.is-invalid]="formErrors.designation" > -->
-                          <select class="form-control" formControlName="course"  id="type"  name="type" (blur)="logValidationMessages(EmployeeForm)"
+                          <!-- <select class="form-control" formControlName="course"  id="type"  name="type" (blur)="logValidationMessages(EmployeeForm)"
                            [class.is-invalid]="formErrors.course" 
                           >
                           <option value="" >Select Course</option>
                             <option *ngFor="let elt of AllCourse" [value]="elt.id">
                               {{elt.title}}
                             </option>
-                  </select>
+                  </select> -->
+                  <!-- <div class="div" *ngFor="let a of AllCourse">
+                    <input type="checkbox"  name="" id="" value="{{a.value}}" formControlName="course"  >{{a.title}}
+                  </div> -->
+                  <div *ngFor="let course of CourseData; let i=index">
+                    <label>
+                      <input type="checkbox" [value]="course.value" (change)="onCheckboxChange($event)"  (blur)="logValidationMessages(EmployeeForm)" />
+                      {{course.name}}
+                    </label>
+                  </div>
                         <div *ngIf="formErrors.course" class="invalid-feedback">{{formErrors.course}}</div>
                     </div>
                 </div>
@@ -161,7 +174,7 @@
             <tr *ngFor="let i of AllEmployewe;let j=index" >
                 <td scope="row">{{j+1}}</td>
                 <td>{{i.name}}</td>
-                <td>{{i.email}}</td>
+                <td>{{i.emails}}</td>
                 <td>{{i.salary}}</td>
                 <td>{{i.designation.title}}</td>
                 <td>

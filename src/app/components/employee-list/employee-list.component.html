@@ -24,12 +24,56 @@
       <td mat-cell *matCellDef="let row"> {{row.name}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="image">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Image </th>
+      <td mat-cell *matCellDef="let row" > 
+      <img height="50px" src="{{row.imageURL}}" alt="">  
+      </td>
+    </ng-container>
+
     <!-- Color Column -->
     <ng-container matColumnDef="email">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
-      <td mat-cell *matCellDef="let row" > {{row.email}} </td>
+      <td mat-cell *matCellDef="let row" > {{row.emails}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="createdAt">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> createdAt </th>
+      <td mat-cell *matCellDef="let row" > {{row.createdAt | date}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="active">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Active </th>
+      <td mat-cell *matCellDef="let row" > {{row.active}} </td>
     </ng-container>
     
+    
+    <ng-container matColumnDef="course">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Course </th>
+      <td mat-cell *matCellDef="let row" > {{row.course}} </td>
+    </ng-container>
+    <ng-container matColumnDef="gender">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Gender </th>
+      <td mat-cell *matCellDef="let row" > {{row.gender}} </td>
+    </ng-container>
+    <ng-container matColumnDef="phone">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone </th>
+      <td mat-cell *matCellDef="let row" > {{row.phone}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="designation">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Designation </th>
+      <td mat-cell *matCellDef="let row" > {{row.designation.title}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+      <td mat-cell *matCellDef="let row" > 
+      <button (click)="deleteEmp(row)" class="btn btn-danger" >delete</button>  
+      <button (click)="editEmployee(row)" class="btn btn-warning" >Edit</button>  
+      </td>
+      
+    </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumnss"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumnss;"></tr>
@@ -41,4 +85,52 @@
   </table>
 
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
+
+
+
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Employee Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" [formGroup]="EmployeeEditForm" >
+<input type="text" class="form-control" formControlName="name" >
+<input type="text" class="form-control" formControlName="email">
+<input type="text" class="form-control" formControlName="salary">
+<select name="" id="" formControlName="designation" >
+<option value="">select</option>
+<option *ngFor="let s of AllDesignation" [value]="s._id"  >{{s.title}}</option>
+</select> 
+<input type="text" class="form-control" formControlName="mobile" >
+<!-- <input type="text" class="form-control" formControlName="gender" > -->
+<input type="radio" value="male"  name="gender" formControlName="gender"  > Male
+<input type="radio" value="female"  name="gender" formControlName="gender"  > Female
+
+<!-- <div *ngFor="let cc of CourseData; let i=index">
+  <label>
+    <input type="checkbox" [value]="cc.value"   formControlName="course" />
+    {{cc.name}}
+  </label>
+</div> -->
+<div>
+  <img height="50px" src="{{photo}}" alt="">
+  <input type="file"  class="form-control" placeholder="chnage file *"   (change)="uploadImage($event)"  />
+</div>
+
+<!-- <input type="image" class="form-control" formControlName="image" ><button (click)="changeImage()"  >Change Image</button> -->
+<!-- <input type="text" class="form-control" formControlName="course" > -->
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="saveEditEmployee()"  >Save changes</button>
+      </div>
+    </div>
+  </div>
 </div>
