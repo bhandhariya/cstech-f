@@ -23,7 +23,7 @@ import { MatPaginatorModule } from "@angular/material/paginator";
 import {MatTableModule} from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-
+import { CheckboxComponent } from '../shared/checkbox/checkbox.component';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -32,7 +32,7 @@ import { MatInputModule } from '@angular/material/input';
     GraphComponent,
     DesignationComponent,
     DashboardComponent,
-    NavbarComponent,SidePanelComponent,FooterComponent,EmployeeListComponent
+    NavbarComponent,SidePanelComponent,FooterComponent,EmployeeListComponent,CheckboxComponent
   ],
   imports: [
       CommonModule,
