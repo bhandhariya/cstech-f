@@ -13,18 +13,26 @@
                         <h1 class="h4 text-gray-900 mb-4">Welcome!</h1>
                     </div>
                     <form  [formGroup]="loginFrom" class="user">
-                        <div class="form-group">
-                          
-                          <input type="text"
-                            class="form-control" formControlName="username" name="" id="" aria-describedby="helpId" placeholder="">
-                          
-                        </div>
-                        <div class="form-group">
-                          
-                            <input type="password"
-                              class="form-control" formControlName="password" name="" id="" aria-describedby="helpId" placeholder="">
-                            
+                     
+                        <div class="form-group row">
+                          <label for="name" class="col-md-4 col-form-label text-md-right">  Username: <span
+                                  class="text-danger">*</span> </label>
+                          <div class="col-md-6">
+                              <input type="text" formControlName="username" class="form-control" (blur)="logValidationMessages(loginFrom)"
+                                [class.is-invalid]="formErrors.username" placeholder="Username *">
+                              <div *ngIf="formErrors.username" class="invalid-feedback">{{formErrors.username}}</div>
                           </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="name" class="col-md-4 col-form-label text-md-right">  Password: <span
+                                class="text-danger">*</span> </label>
+                        <div class="col-md-6">
+                            <input type="password" formControlName="password" class="form-control" (blur)="logValidationMessages(loginFrom)"
+                              [class.is-invalid]="formErrors.password" placeholder="Password *">
+                            <div *ngIf="formErrors.password" class="invalid-feedback">{{formErrors.password}}</div>
+                        </div>
+                    </div>
+                      
                         <button type="submit" (click)="onSubmit(loginFrom.value)" class="btn btn-primary btn-user btn-block">Login</button>  
                        
                     </form>

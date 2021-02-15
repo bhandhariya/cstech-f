@@ -11,10 +11,14 @@ export class DashboardComponent implements OnInit {
   constructor(private router:Router) { }
 
   ngOnInit(): void {
+    console.log(sessionStorage.getItem('name'));
+    this.UserName=sessionStorage.getItem('name');
   }
   logout(){
     localStorage.removeItem('userInfo');
+    localStorage.removeItem('name');
     this.router.navigate(['/login'])
   }
+  UserName:any;
 
 }
