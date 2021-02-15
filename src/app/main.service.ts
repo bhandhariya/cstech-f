@@ -6,8 +6,8 @@ import { Injectable } from '@angular/core';
 })
 export class MainService {
 
-  url:any="http://localhost:3000";
-  // url:any="https://cstech-b.herokuapp.com";
+  // url:any="http://localhost:3000";
+  url:any="https://cstech-b.herokuapp.com";
   constructor(private http:HttpClient) { }
 
 

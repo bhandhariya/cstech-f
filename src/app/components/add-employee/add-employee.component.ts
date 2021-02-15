@@ -300,18 +300,23 @@ test(){
 }
 gt:any;lt:any;
 downloadURL: Observable<string> | undefined;
-uploadImage(event:any) {
+uploadImage(event:any){
   console.log(event)
   const file = event.target.files[0];
+ console.log(file)
+  if (!this.validateFile(file.name)) {
+    Swal.fire(
+      'Sorry!',
+      'onlu png/jpeg supported!',
+      'warning'
+    )
+    
+}else{
   var randomString=Math.floor(Date.now() / 1000);
   //   var picName=randomString;
   const filePath = 'employee'+randomString;
   const fileRef = this.storage.ref(filePath);
   const task = this.storage.upload(filePath, file);
-
-  // observe percentage changes
-  // this.uploadPercent = task.percentageChanges();
-  // get notified when the download URL is available
   task.snapshotChanges().pipe(
       finalize(() =>{ this.downloadURL = fileRef.getDownloadURL()
         this.downloadURL.subscribe(e=>{
@@ -323,13 +328,26 @@ uploadImage(event:any) {
   .subscribe(e=>{
     
   })
+}
+
   
+
+ 
+
 }
 CourseData: Array<any> = [
   { name: 'BCA', value: 'BCA' },
   { name: 'MCA', value: 'MCA' },
   { name: 'BSC', value: 'BSC' }
 ];
-
+validateFile(name: String) {
+  var ext = name.substring(name.lastIndexOf('.') + 1);
+  if (ext.toLowerCase() == 'png'  ||  ext.toLowerCase() == 'jpg' ) {
+      return true;
+  }
+  else {
+      return false;
+  }
+}
 
 }

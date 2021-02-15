@@ -237,6 +237,12 @@ this.main.deActivate(obj).subscribe((result:any)=>{
   console.log(result);
   if(result){
     this.getAllEmployee()
+    Swal.fire(
+      'Deactivated!',
+      'You Have De-activated this Employee!',
+      'success'
+    )
+    this.getAllEmployee()
   }
 },err=>{})
 
@@ -250,6 +256,11 @@ activate(row:any){
     console.log(result);
     if(result){
       this.getAllEmployee()
+      Swal.fire(
+        'Activated!',
+        'You Have Activated this Employee!',
+        'success'
+      )
     }
   },err=>{})
   
