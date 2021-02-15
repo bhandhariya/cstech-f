@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -9,13 +9,20 @@ export class MainService {
   // url:any="http://localhost:3000";
   url:any="https://cstech-b.herokuapp.com";
   constructor(private http:HttpClient) { }
+  
+
+  headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': 'JWT ' + "this.storage.token"
+  });
 
 
   handleError(error:any){
     console.log(error)
   }
   getAllDesignation(){
-    return this.http.get(this.url);
+    console.log(this.headers)
+    return this.http.get(this.url,{headers:this.headers});
   }
   getAllEmployee(){
     return this.http.get(this.url+'/users');

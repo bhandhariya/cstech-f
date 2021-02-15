@@ -1,7 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-login',
@@ -11,7 +13,7 @@ import { AuthService } from '../auth.service';
 export class LoginComponent implements OnInit {
   email =new  FormControl;
   password =new FormControl;
-  constructor(private authService : AuthService, private router : Router,private fb:FormBuilder) { }
+  constructor(private authService : AuthService, private router : Router,private fb:FormBuilder,private http:HttpClient) { }
 
   loginFrom:any;
 
@@ -52,28 +54,51 @@ logValidationMessages(group: FormGroup = this.loginFrom): void {
         } 
     });
 }
-  login(){
-    var obj={
-      username:"admin",
-      password:"admin"
-    }
-    this.authService.validate(obj.username,obj.password).then((response:any)=>{
-      this.authService.setUserInfo({"USER":response['user']});
-      this.router.navigate(['/dashboard/home']);
-    })
-  }
+  // login(){
+  //   var obj={
+  //     username:"admin",
+  //     password:"admin"
+  //   }
+  //   this.authService.validate(obj.username,obj.password).then((response:any)=>{
+  //     this.authService.setUserInfo({"USER":response['user']});
+  //     this.router.navigate(['/dashboard/home']);
+  //   })
+  // }
   onSubmit(r:any){
     this.submmited=true;
     this.logValidationMessages();
    console.log(this.loginFrom.value);
   if(this.loginFrom.valid){
     this.authService.validate(r.username,r.password).then((response:any)=>{
-      sessionStorage.setItem('name',response.data.name)
+      console.log(response)
+      localStorage.setItem('userInfo', JSON.stringify(response.user));
+      sessionStorage.setItem('name',response.user.name);
+      sessionStorage.setItem('token',response.token);
       this.authService.setUserInfo({"USER":response['user']});
       this.router.navigate(['/dashboard/home']);
     }).catch((err:any)=>{
-      console.log(err)
+      if(err.error.msg=="Authentication failed. Wrong password."){
+        Swal.fire(
+          'Oopps!',
+          'Wrong password. please contact Raja Saini!',
+          'warning'
+        )
+      }
+      if(err.error.msg=="Authentication failed. User not found."){
+        Swal.fire(
+          'Oopps!',
+          'User not found. please contact Raja Saini!',
+          'warning'
+        )
+      }
     })
   }
   }
+  // test(){
+  //   this.http.post('http://localhost:3000/users/signin',{username:"rajaasads",password:"cstech@123"}).subscribe(r=>{
+  //   console.log(r)
+  //   },err=>{
+  //     console.log(err)
+  //   })
+  // }
 }
