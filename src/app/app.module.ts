@@ -10,6 +10,10 @@ import { LoginComponent } from './login/login.component';
 
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireStorageModule } from "@angular/fire/storage";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import {MatTableModule} from '@angular/material/table';
+
 var firebaseConfig = {
   apiKey: "AIzaSyADX5A2GvqnF6u4ye4RhDVGZ4v0nRfRWK0",
   authDomain: "backendapi-7cf54.firebaseapp.com",
@@ -27,8 +31,8 @@ var firebaseConfig = {
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    FormsModule,ReactiveFormsModule,HttpClientModule,ChartsModule,AngularFireModule.initializeApp(firebaseConfig),AngularFireStorageModule
+    AppRoutingModule,MatTableModule,
+    FormsModule,ReactiveFormsModule,HttpClientModule,ChartsModule,AngularFireModule.initializeApp(firebaseConfig),AngularFireStorageModule, BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

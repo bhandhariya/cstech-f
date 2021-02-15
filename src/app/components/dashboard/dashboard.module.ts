@@ -18,6 +18,12 @@ import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SidePanelComponent } from '../shared/side-panel/side-panel.component';
 import { FooterComponent } from '../shared/footer/footer.component';
 import { EmployeeListComponent } from '../employee-list/employee-list.component';
+import { MatPaginatorModule } from "@angular/material/paginator";
+
+import {MatTableModule} from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
 @NgModule({
   declarations: [
     HomeComponent,
@@ -30,7 +36,7 @@ import { EmployeeListComponent } from '../employee-list/employee-list.component'
   ],
   imports: [
       CommonModule,
-    FormsModule,ReactiveFormsModule,HttpClientModule,ChartsModule,DashboardRoutingModule
+    FormsModule,ReactiveFormsModule,HttpClientModule,ChartsModule,DashboardRoutingModule,MatTableModule,MatPaginatorModule,MatFormFieldModule,MatInputModule
   ],
   providers: []
 })
