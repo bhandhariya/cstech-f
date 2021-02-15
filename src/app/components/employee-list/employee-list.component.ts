@@ -228,6 +228,31 @@ showPhoto:boolean=false;
 chnagePhoto(){
 this.showPhoto=true;
 }
+deactivate(row:any){
+var obj={
+  id:row._id
+}
 
+this.main.deActivate(obj).subscribe((result:any)=>{
+  console.log(result);
+  if(result){
+    this.getAllEmployee()
+  }
+},err=>{})
+
+}
+activate(row:any){
+  var obj={
+    id:row._id
+  }
+  
+  this.main.activate(obj).subscribe((result:any)=>{
+    console.log(result);
+    if(result){
+      this.getAllEmployee()
+    }
+  },err=>{})
+  
+}
 }
 

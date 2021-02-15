@@ -6,8 +6,8 @@ import { Injectable } from '@angular/core';
 })
 export class MainService {
 
-  // url:any="http://localhost:3000";
-  url:any="https://cstech-b.herokuapp.com";
+  url:any="http://localhost:3000";
+  // url:any="https://cstech-b.herokuapp.com";
   constructor(private http:HttpClient) { }
 
 
@@ -40,5 +40,11 @@ export class MainService {
   }
   login(data:any){
      return this.http.post(this.url+'/login',data);
+  }
+  activate(emp:any){
+    return this.http.post(this.url+'/users/activate',emp);
+  }
+  deActivate(emp:any){
+    return this.http.post(this.url+'/users/deactivate',emp);
   }
 }

@@ -71,6 +71,9 @@
       <td mat-cell *matCellDef="let row" > 
       <button (click)="deleteEmp(row)" class="btn btn-danger" >delete</button>  
       <button (click)="editEmployee(row)" class="btn btn-warning" >Edit</button>  
+      <button *ngIf="row.active" (click)="deactivate(row)" class="btn btn-success" >De-Activate</button>  
+      <button *ngIf="!row.active" (click)="activate(row)" class="btn btn-success" >Activate</button>  
+      
       </td>
       
     </ng-container>
