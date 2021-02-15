@@ -28,7 +28,7 @@ export class AddEmployeeComponent implements OnInit {
     designation : ['',[Validators.required]],
     mobile:['',[Validators.required]],
     gender:['',[Validators.required]],
-    course:this.fb.array([]),
+    course:['',[Validators.required]],
     image:['',[Validators.required]]
   })
   this.EmployeeForm.valueChanges.subscribe((value:any)=>{

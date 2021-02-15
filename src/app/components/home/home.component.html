@@ -1,1 +1,17 @@
-<p>home works!</p>
+<!-- <div>
+    <label for="exampleInputEmail1">Options with customClass</label>
+    <check-box-group name="props" [(ngModel)]="person.props"
+        [source]="dynamicData"  #props="ngModel" isRequired>
+    </check-box-group>
+    <div *ngIf="props?.invalid && (props.touched || props.dirty)"
+  class="alert alert-danger">Required one value select</div>
+
+</div> -->
+
+
+<app-checkbox name="props" [(ngModel)]="person.props"
+[source]="dynamicData"  #props="ngModel" isRequired>
+</app-checkbox>
+
+<div *ngIf="props?.invalid && (props.touched || props.dirty)"
+  class="alert alert-danger">Required one value select</div>

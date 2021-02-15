@@ -6,6 +6,7 @@ import { EmployeeListComponent } from '../employee-list/employee-list.component'
 import { GraphComponent } from '../graph/graph.component';
 import { HomeComponent } from '../home/home.component';
 import { SearchEmployeeComponent } from '../search-employee/search-employee.component';
+import { CheckboxComponent } from '../shared/checkbox/checkbox.component';
 import { DashboardComponent } from './dashboard.component';
 
 
@@ -23,6 +24,7 @@ const routes: Routes = [
     {path:"graph",component:GraphComponent,},
     {path:"designation",component:DesignationComponent,},
     {path:"list",component:EmployeeListComponent,},
+    {path:"check",component:CheckboxComponent,},
     {path:"",redirectTo:"home",pathMatch:"full"},
   ]}
   

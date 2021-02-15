@@ -224,5 +224,10 @@ uploadImage(event:any) {
   })
   
 }
+showPhoto:boolean=false;
+chnagePhoto(){
+this.showPhoto=true;
+}
+
 }
 

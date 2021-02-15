@@ -120,8 +120,11 @@
 </div> -->
 <div>
   <img height="50px" src="{{photo}}" alt="">
-  <input type="file"  class="form-control" placeholder="chnage file *"   (change)="uploadImage($event)"  />
+  <button *ngIf="!showPhoto" class="btn btn-primary" (click)="chnagePhoto()" >chnage photo</button>
+  <input *ngIf="showPhoto" type="file"  class="form-control" placeholder="chnage file *"   (change)="uploadImage($event)"  />
 </div>
+
+<app-checkbox  name="props2" formControlName="course" [source]="CourseData"   ></app-checkbox>
 
 <!-- <input type="image" class="form-control" formControlName="image" ><button (click)="changeImage()"  >Change Image</button> -->
 <!-- <input type="text" class="form-control" formControlName="course" > -->

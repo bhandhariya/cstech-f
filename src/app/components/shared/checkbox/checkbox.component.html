@@ -1,1 +1,10 @@
-<p>checkbox works!</p>
+<ng-container *ngFor="let item of source;let i=index;let last=last">
+      
+    <div  [ngClass]="last?'form-group':''" class="form-check" >
+       <input type="checkbox" class="form-check-input"  id="{{_name+''+i}}"
+            [ngModel]="_selectedItems[i]"
+           (ngModelChange)="setValue($event,i)" (blur)="onTouched()" >
+       <label class="form-check-label" for="{{_name+''+i}}">{{item[_col]}}</label>
+    </div>
+
+    </ng-container>
