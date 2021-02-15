@@ -20,8 +20,8 @@ export class AuthService {
   public setUserInfo(user:any){
     localStorage.setItem('userInfo', JSON.stringify(user));
   }
-url:any="http://localhost:3000";
-// url:any="https://cstech-b.herokuapp.com";
+// url:any="http://localhost:3000";
+url:any="https://cstech-b.herokuapp.com";
   public validate(email:any, password:any) {
     return this.http.post(this.url+'/users/signin', {'username' : email, 'password' : password}).toPromise()
   }
